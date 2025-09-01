@@ -7,10 +7,11 @@ exports.createUser = async (req, res) => {
         await user.save();
         res.status(201).json({ user });
     } catch (error) {
+        console.error('Error creating user:', error);
         if (error.code === 11000) {
             return res.status(409).json({ message: 'Email already exists' });
         }
-        res.status(400).json({ message: 'Invalid data', error });
+        res.status(400).json({ message: 'Invalid data', error: error.message });
     }
 };
 
@@ -26,7 +27,8 @@ exports.getUsers = async (req, res) => {
         const result = await User.paginate(query, options);
         res.status(200).json({ users: result.docs, totalPages: result.totalPages, currentPage: result.page });
     } catch (error) {
-        res.status(500).json({ message: 'Error fetching users', error });
+        console.error('Error fetching users:', error);
+        res.status(500).json({ message: 'Error fetching users', error: error.message });
     }
 };
 
@@ -81,6 +83,7 @@ exports.getUserStats = async (req, res) => {
         const domainStats = byDomain.reduce((acc, { domain, count }) => ({ ...acc, [domain]: count }), {});
         res.status(200).json({ totalUsers, lastWeekUsers, byDomain: domainStats });
     } catch (error) {
-        res.status(500).json({ message: 'Error fetching stats', error });
+        console.error('Error fetching stats:', error);
+        res.status(500).json({ message: 'Error fetching stats', error: error.message });
     }
 };
