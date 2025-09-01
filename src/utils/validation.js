@@ -1,5 +1,10 @@
 const { body, validationResult } = require('express-validator');
 
+const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+};
+
 const validateUser = [
     body('name').isString().notEmpty().withMessage('Name is required'),
     body('email').isEmail().withMessage('Email must be a valid email address'),
@@ -14,6 +19,7 @@ const validate = (req, res, next) => {
 };
 
 module.exports = {
+    validateEmail,
     validateUser,
     validate,
 };

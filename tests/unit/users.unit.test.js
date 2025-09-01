@@ -7,8 +7,11 @@ describe('User Model', () => {
         await mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
     });
 
+    beforeEach(async () => {
+        await User.deleteMany({});
+    });
+
     afterAll(async () => {
-        await mongoose.connection.dropDatabase();
         await mongoose.connection.close();
     });
 

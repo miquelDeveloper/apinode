@@ -5,7 +5,7 @@ exports.createUser = async (req, res) => {
     try {
         const user = new User({ name, email });
         await user.save();
-        res.status(201).json(user);
+        res.status(201).json({ user });
     } catch (error) {
         if (error.code === 11000) {
             return res.status(409).json({ message: 'Email already exists' });
@@ -23,8 +23,8 @@ exports.getUsers = async (req, res) => {
         sort: sort ? { [sort]: 1 } : {}
     };
     try {
-        const users = await User.paginate(query, options);
-        res.status(200).json(users);
+        const result = await User.paginate(query, options);
+        res.status(200).json({ users: result.docs, totalPages: result.totalPages, currentPage: result.page });
     } catch (error) {
         res.status(500).json({ message: 'Error fetching users', error });
     }

@@ -8,7 +8,12 @@ require('dotenv').config();
 const app = express();
 
 app.use(express.json());
-app.use(httpsRedirect);
+
+// Only apply HTTPS redirect in production
+if (process.env.NODE_ENV === 'production') {
+    app.use(httpsRedirect);
+}
+
 app.use('/users', usersRoutes);
 app.use(errorHandler);
 

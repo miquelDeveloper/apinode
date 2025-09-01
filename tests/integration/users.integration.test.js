@@ -1,10 +1,15 @@
 const request = require('supertest');
 const app = require('../../src/app');
 const mongoose = require('mongoose');
+const User = require('../../src/models/user');
 
 describe('User API Integration Tests', () => {
     beforeAll(async () => {
         await mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+    });
+
+    beforeEach(async () => {
+        await User.deleteMany({});
     });
 
     afterAll(async () => {
@@ -54,7 +59,7 @@ describe('User API Integration Tests', () => {
             .send({ name: 'Bob', email: 'bob@example.com' });
         const response = await request(app)
             .put(`/users/${user.body.user._id}`)
-            .send({ name: 'Robert' });
+            .send({ name: 'Robert', email: 'bob@example.com' });
         expect(response.status).toBe(200);
         expect(response.body).toHaveProperty('name', 'Robert');
     });

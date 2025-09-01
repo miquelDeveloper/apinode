@@ -13,12 +13,27 @@
    npm install
    ```
 
-3. Create a `.env` file based on the `.env.example` file and fill in the required environment variables.
+3. Create a `.env` file with the following environment variables:
 
 ## Environment Variables
 
+Create a `.env` file in the root directory with the following variables:
+
+```env
+# MongoDB Connection
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/database_name?retryWrites=true&w=majority
+
+# Server Configuration
+PORT=3000
+
+# Environment
+NODE_ENV=development
+```
+
+Required variables:
 - `MONGODB_URI`: Connection string for MongoDB Atlas.
 - `PORT`: Port number for the server (default is 3000).
+- `NODE_ENV`: Environment mode (development, production, test).
 
 ## Running the Project
 
