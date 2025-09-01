@@ -9,8 +9,8 @@ const app = express();
 
 app.use(express.json());
 
-// Only apply HTTPS redirect in production
-if (process.env.NODE_ENV === 'production') {
+// Only apply HTTPS redirect in development (Vercel handles HTTPS automatically)
+if (process.env.NODE_ENV === 'development') {
     app.use(httpsRedirect);
 }
 
